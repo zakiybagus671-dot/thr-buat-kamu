@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lebaran Bersama Bolo 🌙</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --hijau-tua: #1b5e20;
+            --hijau-muda: #4caf50;
+            --merah-thr: #e91e63;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Ketupat Animasi */
+        .ketupat {
+            width: 60px;
+            height: 60px;
+            background: #d4e157;
+            border: 3px solid var(--hijau-tua);
+            transform: rotate(45deg);
+            margin-bottom: 40px;
+            position: relative;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
+            animation: float 3s ease-in-out infinite;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(46, 125, 50, 0.1) 10px, rgba(46, 125, 50, 0.1) 20px);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(-20px); }
+        }
+
+        /* Card Utama */
+        .card {
+            background: var(--hijau-tua);
+            padding: 40px;
+            border-radius: 30px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #fff;
+            max-width: 300px;
+        }
+
+        .card:hover { transform: scale(1.1); box-shadow: 0 20px 45px rgba(0,0,0,0.4); }
+
+        /* Modal Pop Up */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 85%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 0 100px rgba(0,0,0,0.6);
+            z-index: 999;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            70% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Uang THR Pink */
+        .uang-thr {
+            background: #fce4ec;
+            border: 3px dashed var(--merah-thr);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 25px;
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .uang-thr:hover { background: #f8bbd0; }
+        .nominal { font-size: 28px; font-weight: bold; color: var(--merah-thr); display: block; }
+
+        .footer-text { margin-top: 20px; font-weight: bold; color: var(--hijau-tua); font-size: 1.2rem; }
+
+        button {
+            margin-top: 25px;
+            padding: 10px 25px;
+            border: none;
+            background: #eee;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Efek Uang Jatuh */
+        .money-drop {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ketupat"></div>
+
+    <div class="card" onclick="bukaPesan()">
+        <h1 style="margin:0">Minal Aidin</h1>
+        <p>Klik buat dapet Fitrah, Bolo!</p>
+    </div>
+
+    <div class="footer-text">nyo fitrah e</div>
+
+    <div id="popup">
+        <h2 style="color: var(--hijau-tua); margin-top:0">Sugeng Riyadi Bolo! 🌙</h2>
+        <p style="color: #333;"><b>Selamat Hari Raya Idul Fitri</b></p>
+        <p style="font-style: italic; color: #666; font-size: 0.9rem;">
+            "Tuku kupat keleru santen, menawi lepat nyuwun ngapunten"
+        </p>
+        
+        <div class="uang-thr" onclick="ambilThr()">
+            <span style="font-size: 10px; color: #888; letter-spacing: 2px;">BANK INDONESIA</span>
+            <span class="nominal">Rp 100.000</span>
+            <small style="color: var(--merah-thr);">Klik untuk klaim!</small>
+        </div>
+
+        <button onclick="tutupPesan()">Tutup</button>
+    </div>
+
+    <script>
+        function bukaPesan() {
+            document.getElementById('popup').style.display = 'block';
+            // Efek Konfeti saat buka kartu
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function tutupPesan() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        function ambilThr() {
+            // Suara koin (opsional, pake alert aja)
+            alert("Alhamdulillah, Rp 100.000 masuk dompet virtual!");
+            
+            // Hujan Uang
+            for(let i=0; i<30; i++) {
+                setTimeout(createMoney, i * 100);
+            }
+            
+            // Ledakan Konfeti
+            confetti({
+                particleCount: 150,
+                velocity: 30,
+                spread: 360,
+                colors: ['#e91e63', '#4caf50', '#ffeb3b']
+            });
+        }
+
+        function createMoney() {
+            const money = document.createElement('div');
+            money.innerText = '💵';
+            money.className = 'money-drop';
+            money.style.left = Math.random() * 100 + 'vw';
+            money.style.top = '-50px';
+            money.style.duration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(money);
+            
+            // Hapus elemen setelah jatuh biar nggak berat
+            setTimeout(() => { money.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
